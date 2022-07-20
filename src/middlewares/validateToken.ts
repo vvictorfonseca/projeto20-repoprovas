@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import jwt from "jsonwebtoken"
-import "../config/setup.js"
+import "../config/setUp.js"
 
 const { JWT_SECRET_KEY } = process.env
 
