@@ -28,7 +28,7 @@ model tests {
 
 model categories {
   id Int @id @default(autoincrement())
-  name category @unique
+  name String @unique
 
   tests tests[]
 }
@@ -64,12 +64,4 @@ model terms {
   number Int @unique
 
   disciplines disciplines[]
-}
-
-enum category {
-  p1
-  p2
-  p3
-  p2ch
-  outras
 }

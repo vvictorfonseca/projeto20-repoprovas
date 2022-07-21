@@ -9,7 +9,7 @@ import handleErrors from "./middlewares/handleErrorMiddleware.js";
 import router from "./routes/index.js";
 
 const app = express();
-app.use(cors({ credentials: true, origin: ["http://localhost:5000"] }));
+app.use(cors());
 app.use(json());
 
 app.use(router);

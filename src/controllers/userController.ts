@@ -16,13 +16,7 @@ async function sendToken(req: Request, res: Response) {
     const user: CreateUserData = userInfo
 
     const token = await userService.loginToken(user)
-    res.cookie('token', token, { httpOnly: true });
     return res.status(200).send(token)
 }
 
-async function logOut(req: Request, res: Response) {
-    res.cookie('token', '', { httpOnly: true })
-    return res.sendStatus(200)
-}
-
-export { createUser, sendToken, logOut }
+export { createUser, sendToken }
