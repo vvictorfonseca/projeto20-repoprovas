@@ -18,11 +18,11 @@ async function validateToken(req: Request, res: Response, next: NextFunction) {
         throw { type: "unauthorized", message: "invalid token" }
     }
 
-    const user = jwt.verify(token, JWT_SECRET_KEY)
-
-    if (!user) {
-        throw { type: "not_found", message: "User not found" };
-    }
+    const user = jwt.verify(token, JWT_SECRET_KEY, (err) => {
+        if (err) {
+            throw { type: "not_found", message: "User not found" };
+        }
+    })
 
     res.locals.user = user
     

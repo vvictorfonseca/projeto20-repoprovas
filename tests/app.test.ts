@@ -111,13 +111,18 @@ describe("POST /create/test", () => {
         expect(response.status).toEqual(401)
     })
 
-    it("return 401 for invalid token", async () => {
-        const token = "invalid token"
+    it("return 404 for invalid token", async () => {
+        const login = await authFactory.createLogin()
+        await authFactory.createUser(login)
+
+        const responseLogin = await agent.post("/sign-in").send(login);
+        const token = responseLogin.body.token;
+
         const testData = testFactory.createTestData()
+        const invalidToken = "invalidToken"
+        const response = await agent.post("/create/test").set("Authorization", `Bearer ${invalidToken}`).send(testData)
 
-        const response = await agent.post("/create/test").set("Authorization", `Bearer ${token}`).send(testData)
-
-        expect(response.status).toEqual(401)
+        expect(response.status).toEqual(404)
     })
 });
 
@@ -141,12 +146,20 @@ describe("GET /tests/byDiscipline", () => {
         expect(response.status).toEqual(401)
     })
 
-    it("return 401 for invalid token", async () => {
-        const token = "invalid token"
+    it("return 404 for invalid token", async () => {
+        const login = await authFactory.createLogin()
+        await authFactory.createUser(login)
 
-        const response = await agent.get("/tests/byDiscipline").set("Authorization", `Bearer ${token}`)
+        const responseLogin = await agent.post("/sign-in").send(login);
+        const token = responseLogin.body.token;
 
-        expect(response.status).toEqual(401)
+        const testData = testFactory.createTestData()
+        const responseTest = await agent.post("/create/test").set("Authorization", `Bearer ${token}`).send(testData)
+
+        const invalidToken = "invalidToken"
+        const response = await agent.get("/tests/byDiscipline").set("Authorization", `Bearer ${invalidToken}`);
+
+        expect(response.status).toEqual(404)
     })
 });
 
