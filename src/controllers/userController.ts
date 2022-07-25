@@ -16,7 +16,7 @@ async function sendToken(req: Request, res: Response) {
     const user: CreateUserData = userInfo
 
     const token = await userService.loginToken(user)
-    return res.status(200).send(token)
+    return res.status(200).send({token})
 }
 
 export { createUser, sendToken }

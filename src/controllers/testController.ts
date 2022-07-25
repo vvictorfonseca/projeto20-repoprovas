@@ -1,13 +1,21 @@
 import { Request, Response } from "express";
-import testService, { CreateTestData, CreateTestBody } from "../services/testService.js";
+import testService, { CreateTestData } from "../services/testService.js";
 
 async function createTest(req: Request, res: Response) {
-    const testInfo: CreateTestBody = req.body
-    const teacherDisciplineId: number = parseInt(req.params.teacherDisciplineId)
+    const test: CreateTestData = req.body
 
-    const test: CreateTestData = {...testInfo, teacherDisciplineId}
     await testService.createTest(test)
     return res.sendStatus(201)
 }
 
-export { createTest }
+async function getTestsByDiscipline(req: Request, res: Response) {
+    const tests = await testService.getTestsByDiscipline();
+    return res.status(200).send({tests})
+}
+
+async function getTestsByTeacher(req: Request, res: Response) {
+    const tests = await testService.getTestsByTeacher();
+    return res.status(200).send({tests})
+}
+
+export { createTest, getTestsByDiscipline, getTestsByTeacher }

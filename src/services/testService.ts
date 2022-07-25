@@ -2,11 +2,8 @@ import { tests } from "@prisma/client";
 import testRepository from "../repositories/testRepository.js";
 
 export type CreateTestData = Omit<tests, "id">
-export type CreateTestBody = Omit<tests, "id" | "teacherDisciplineId">
 
 async function createTest(test: CreateTestData) {
-
-    console.log("entrou")
 
     const categoryExist = await testRepository.ensureCategoryExist(test.categoryId)
     const teacherDisciplineExist = await testRepository.ensureTeacherDisciplineExist(test.teacherDisciplineId)
@@ -27,8 +24,20 @@ async function createTest(test: CreateTestData) {
     await testRepository.createTest(test)
 }
 
+async function getTestsByDiscipline() {
+    const tests = await testRepository.getTestsByDiscipline()
+    return tests
+}
+
+async function getTestsByTeacher() {
+    const tests = await testRepository.getTestsByTeacher()
+    return tests
+}
+
 const testService = {
-    createTest
+    createTest,
+    getTestsByDiscipline,
+    getTestsByTeacher
 }
 
 export default testService

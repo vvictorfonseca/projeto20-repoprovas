@@ -28,12 +28,8 @@ async function loginToken(user: CreateUserData) {
     const userInfo = await userRepository.findUserByEmail(user.email)
     const isCorrectPassword = bcrypt.compareSync(user.password, userInfo.password)
 
-    if (!userInfo) {
-        throw { type: "bad_request", message: "Non-existent user" }
-    }
-
-    if (!isCorrectPassword) {
-        throw { type: "unauthorized", massage: "wrong password" }
+    if (!userInfo || !isCorrectPassword) {
+        throw { type: "unauthorized", massage: "wrong email or password" }
     }
 
     const expiresAt = { expiresIn: 60 * 60 * 24}

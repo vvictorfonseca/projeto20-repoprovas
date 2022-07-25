@@ -6,7 +6,7 @@ export function validateSchema(schema: Joi.ObjectSchema) {
         const { error } = schema.validate(req.body, { abortEarly: false });
         if (error) {
             throw {
-                type: "Unprocessable_Entity",
+                type: "unprocessable_entity",
                 message: error.details.map((detail) => detail.message),
             };
         }

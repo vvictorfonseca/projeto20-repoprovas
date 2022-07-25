@@ -11,7 +11,7 @@ function handleErrors(error: any, req: Request, res: Response, next: NextFunctio
     }
 
     if (error.type === "not_allowed") {
-        return res.status(401).send(error.message)
+        return res.status(405).send(error.message)
     }
 
     if (error.type === "conflict") {
@@ -19,11 +19,11 @@ function handleErrors(error: any, req: Request, res: Response, next: NextFunctio
     }
 
     if (error.type === "bad_request") {
-        return res.send(400).send(error.message)
+        return res.status(400).send(error.message)
     }
 
     if (error.type === "unauthorized") {
-        return res.send(401).send(error.message)
+        return res.status(401).send(error.message)
     }
 
     return res.status(500).send("Internal server error!")
